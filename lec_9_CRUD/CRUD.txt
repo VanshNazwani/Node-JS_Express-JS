@@ -1,0 +1,32 @@
+// Create
+router.post('/', async (req, res) => {
+  const user = new User(req.body);
+  await user.save();
+  res.send(user);
+});
+
+// Read All
+router.get('/', async (req, res) => {
+  const users = await User.find();
+  res.send(users);
+
+});
+
+ // Read One
+router.get('/:id', async (req, res) => {
+  const user = await User.findById(req.params.id);
+  res.send(user);
+});
+
+// Update
+router.put('/:id', async (req, res) => {
+  const user = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
+  res.send(user);
+});
+
+// Delete
+router.delete('/:id', async (req, res) => {
+  await User.findByIdAndDelete(req.params.id);
+  res.send({ message: 'User deleted' });
+});
+
