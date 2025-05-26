@@ -1,1 +1,6 @@
+MVC - Model view controller
 
+To connect nodeJS , Express JS , EJS, mongoDB :
+       USE Cmd - 
+                npm init -y
+                npm i express mongoose ejs
