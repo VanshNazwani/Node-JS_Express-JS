@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Course Registration</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f0f4f8;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #004aad;
+      color: white;
+      padding: 2rem 1rem;
+      text-align: center;
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2rem;
+    }
+
+    main {
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 1rem;
+    }
+
+    .registration-form {
+      background-color: #fff;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0, 74, 173, 0.1);
+    }
+
+    .registration-form h2 {
+      color: #004aad;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+
+    label {
+      font-weight: 600;
+      display: block;
+      margin-top: 1rem;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 0.3rem;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+
+    fieldset {
+      border: 2px solid #004aad;
+      border-radius: 12px;
+      padding: 1rem;
+      margin-top: 2rem;
+    }
+
+    legend {
+      font-weight: bold;
+      color: #004aad;
+    }
+
+    input[type="checkbox"] {
+      margin-right: 10px;
+      transform: scale(1.1);
+    }
+
+    .total-fee {
+      font-weight: bold;
+      color: #004aad;
+      text-align: right;
+      margin-top: 1rem;
+    }
+
+    .course-count-badge {
+      background-color: crimson;
+      color: white;
+      padding: 2px 8px;
+      font-size: 0.8rem;
+      border-radius: 12px;
+      margin-left: 5px;
+    }
+
+    button {
+      width: 48%;
+      padding: 12px;
+      margin-top: 2rem;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: none;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button[type="submit"] {
+      background-color: #004aad;
+      color: white;
+    }
+
+    button[type="reset"] {
+      background-color: #800000;
+      color: white;
+    }
+
+    .btn-group {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .registered-details {
+      background-color: white;
+      padding: 2rem;
+      margin-top: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
+    }
+
+    .registered-details h2 {
+      color: #004aad;
+      text-align: center;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1rem;
+      background-color: #e4e9f2;
+      color: #555;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Student Course Registration</h1>
+  </header>
+  <main>
+    <section class="registration-form">
+      <h2>Register for Courses</h2>
+      <form id="courseRegistrationForm">
+        <label for="studentName">Student Name:</label>
+        <input type="text" id="studentName" name="studentName" required />
+
+        <label for="studentId">Admission ID:</label>
+        <input type="text" id="studentId" name="studentId" required />
+
+        <label for="enrollmentNumber">Enrollment Number:</label>
+        <input type="text" id="enrollmentNumber" name="enrollmentNumber" required />
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required />
+
+        <label for="department">Department:</label>
+        <select id="department" name="department" required>
+          <option value="">--Select Department--</option>
+          <option value="cs">Computer Science Engineering</option>
+          <option value="ee">Electrical Engineering</option>
+          <option value="me">Mechanical Engineering</option>
+        </select>
+
+        <fieldset>
+          <legend>Select Courses (with Prices): <span class="course-count-badge" id="courseCount">0</span></legend>
+          <label><input type="checkbox" name="courses" value="CS101" data-price="5000" /> Introduction to Programming - ₹5000</label>
+          <label><input type="checkbox" name="courses" value="CS102" data-price="6000" /> Data Structures - ₹6000</label>
+          <label><input type="checkbox" name="courses" value="CS103" data-price="5500" /> Web Development - ₹5500</label>
+          <label><input type="checkbox" name="courses" value="CS104" data-price="5200" /> Databases - ₹5200</label>
+          <label><input type="checkbox" name="courses" value="CS105" data-price="5800" /> Operating System - ₹5800</label>
+        </fieldset>
+        <div class="total-fee" id="liveTotal">Total Fee: ₹0</div>
+
+        <div class="btn-group">
+          <button type="submit">Submit</button>
+          <button type="reset">Reset</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="registered-details" id="output"></section>
+  </main>
+
+  <footer>
+    <p><b>&copy; 2025 Student Registration Portal. All rights reserved.</b></p>
+  </footer>
+
+  <script>
+    const form = document.getElementById('courseRegistrationForm');
+    const courseCheckboxes = document.querySelectorAll('input[name="courses"]');
+    const totalFeeDiv = document.getElementById('liveTotal');
+    const courseCount = document.getElementById('courseCount');
+    const output = document.getElementById('output');
+
+    function updateCourseStats() {
+      let total = 0, count = 0;
+      courseCheckboxes.forEach(cb => {
+        if (cb.checked) {
+          total += parseInt(cb.dataset.price);
+          count++;
+        }
+      });
+      totalFeeDiv.textContent = `Total Fee: ₹${total}`;
+      courseCount.textContent = count;
+    }
+
+    courseCheckboxes.forEach(cb => {
+      cb.addEventListener('change', updateCourseStats);
+    });
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const name = form.studentName.value;
+      const id = form.studentId.value;
+      const enrollment = form.enrollmentNumber.value;
+      const email = form.email.value;
+      const deptCode = form.department.value;
+      const departments = {
+        cs: 'Computer Science Engineering',
+        ee: 'Electrical Engineering',
+        me: 'Mechanical Engineering'
+      };
+
+      const selectedCourses = [];
+      let total = 0;
+      courseCheckboxes.forEach(course => {
+        if (course.checked) {
+          const price = parseInt(course.getAttribute('data-price'));
+          total += price;
+          selectedCourses.push(`${course.nextSibling.textContent.trim()} (₹${price})`);
+        }
+      });
+
+      if (selectedCourses.length === 0) {
+        alert("Please select at least one course.");
+        return;
+      }
+
+      let summary = `<h2>Registration Summary</h2>`;
+      summary += `<p><strong>Name:</strong> ${name}</p>`;
+      summary += `<p><strong>Admission ID:</strong> ${id}</p>`;
+      summary += `<p><strong>Enrollment Number:</strong> ${enrollment}</p>`;
+      summary += `<p><strong>Email:</strong> ${email}</p>`;
+      summary += `<p><strong>Department:</strong> ${departments[deptCode]}</p>`;
+      summary += `<p><strong>Selected Courses:</strong><br>${selectedCourses.join('<br>')}</p>`;
+      summary += `<p><strong>Total Amount:</strong> ₹${total}</p>`;
+
+      output.innerHTML = summary;
+    });
+
+    form.addEventListener('reset', function() {
+      setTimeout(() => {
+        updateCourseStats();
+        output.innerHTML = "";
+      }, 50);
+    });
+
+    updateCourseStats(); // initial update
+  </script>
+</body>
+</html>
