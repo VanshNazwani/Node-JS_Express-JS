@@ -1,0 +1,14 @@
+body{
+    text-align: center;
+    background-color: aqua;
+    color: black;
+    padding-top: 15%;
+
+}
+
+input, button{
+    font-size: 25px;
+    font-family:monospace;
+    font-weight: bolder;
+}
+
