@@ -22,6 +22,15 @@ app.get("/contacts/:id", (req, res) => {
   const filter_contact = contacts.filter((contact) => contact.id == id)
   res.json(filter_contact);
 })
+
+// add new contact
+app.post("/contacts/add", (req, res) => {
+  const {id,name,email,phone} = req.body;
+  
+
+}
+
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`✅ Server is running on port ${PORT}`);
